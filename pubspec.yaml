@@ -1,0 +1,66 @@
+name: spacex
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  device_preview: ^1.2.0
+  animate_do: ^3.3.4
+  intl: ^0.19.0
+  get: ^4.6.6
+  flutter_screenutil: ^5.9.3
+  google_sign_in: ^6.2.1
+  font_awesome_flutter: ^10.7.0
+  awesome_snackbar_content: ^0.1.4
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+
+  assets:
+    - assets/
+
+  fonts:
+    - family: Senmoly Caligan
+      fonts:
+        - asset: fonts/SenmolyCaligan.otf
+
+    - family: Khediawy
+      fonts:
+        - asset: fonts/Khediawy.ttf
+
+    - family: Calibri
+      fonts:
+        - asset: fonts/calibri.ttf
+          style: normal
+        - asset: fonts/calibrii.ttf
+          style: italic
+        - asset: fonts/calibrib.ttf
+          weight: 700
+        - asset: fonts/calibril.ttf
+          weight: 300
+        - asset: fonts/calibrili.ttf
+          weight: 300
+          style: italic
+        - asset: fonts/calibriz.ttf
+          weight: 700
+          style: italic
+
+    - family: Droid Arabic
+      fonts:
+        - asset: fonts/Droid.Arabic.Kufi.ttf

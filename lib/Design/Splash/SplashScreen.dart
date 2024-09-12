@@ -1,0 +1,46 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:spacex/Design/Auth/Signup.dart';
+import 'package:spacex/Design/Colors/ColorsMethods.dart';
+import 'package:spacex/main.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashscreenState();
+}
+
+class _SplashscreenState extends State<SplashScreen> {
+
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 3)).then((value) {
+      Get.off(SignUpScreen());
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor:background,
+      body: Container(
+        width: MediaQuery.sizeOf(context).width,
+        height: MediaQuery.sizeOf(context).height,
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage("assets/galaxy.gif"),fit: BoxFit.fill)
+        ),
+        child: Center(
+          child: Text("Space-X",style: TextStyle(
+            fontFamily: "Droid Arabic",
+            color: background,
+            fontWeight: FontWeight.w700,
+            fontSize: 72.sp
+          ),),
+        ),
+      ),
+    );
+  }
+}

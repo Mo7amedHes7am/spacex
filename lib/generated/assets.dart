@@ -2,10 +2,16 @@
 class Assets {
   Assets._();
 
-  static const String assetsEmail = 'assets/email.png';
+  static const String assetsCertificate = 'assets/certificate.svg';
+  static const String assetsEarth = 'assets/earth.gif';
+  static const String assetsEarth2 = 'assets/earth2.gif';
+  static const String assetsForecast = 'assets/forecast.jpg';
   static const String assetsGalaxy = 'assets/galaxy.gif';
+  static const String assetsGalaxy2 = 'assets/galaxy2.gif';
   static const String assetsGiphy = 'assets/giphy.gif';
   static const String assetsGiphynobg = 'assets/giphynobg.gif';
+  static const String assetsLogo = 'assets/logo.png';
+  static const String assetsMagnetometer = 'assets/Magnetometer.jpg';
   static const String assetsStars = 'assets/stars.gif';
   static const String assetsSun = 'assets/sun.jpg';
   static const String assetsSun orbiting = 'assets/sun orbiting.gif';

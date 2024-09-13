@@ -1,4 +1,5 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -101,21 +102,22 @@ class _ForgotScreenState extends State<ForgotScreen> {
                 children: [
                   InkWell(
                     onTap: () async {
-                      // await FirebaseAuth.instance.sendPasswordResetEmail(email: emailcontroller.text);
-                      // final snackBar = SnackBar(
-                      //   duration: Duration(milliseconds: 1500,),
-                      //   elevation: 0,
-                      //   behavior: SnackBarBehavior.floating,
-                      //   backgroundColor: Colors.transparent,
-                      //   content: AwesomeSnackbarContent(
-                      //     title: 'Success',
-                      //     message: 'Sent Reset Email Password To Your Email',
-                      //     contentType: ContentType.success,
-                      //   ),
-                      // );
-                      // ScaffoldMessenger.of(context)
-                      //   ..hideCurrentSnackBar()
-                      //   ..showSnackBar(snackBar);
+                      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailcontroller.text);
+                      final snackBar = SnackBar(
+                        duration: Duration(milliseconds: 1500,),
+                        elevation: 0,
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        content: AwesomeSnackbarContent(
+                          title: 'Success',
+                          message: 'Sent Reset Email Password To Your Email',
+                          contentType: ContentType.success,
+                        ),
+                      );
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(snackBar);
+                      Navigator.pop(context);
                     },
                     child: Container(
                       width: 328.w,

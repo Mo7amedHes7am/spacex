@@ -1,9 +1,11 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:spacex/Design/Auth/Signup.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
+import 'package:spacex/Design/Main/Home.dart';
 
 bool x = false;
 class SignupScreen2 extends StatefulWidget
@@ -303,6 +305,7 @@ class _SignupScreenState extends State<SignupScreen2> {
                               return;
                             }
                             else{
+                              await signUpWithEmail(emailcontroller.text.toString(),passwordcontroller.text.toString(),firstnamecontroller.text.toString() + " " +lastnamecontroller.text.toString(),context);
                             }
                           },
                           child: Container(
@@ -350,5 +353,51 @@ class _SignupScreenState extends State<SignupScreen2> {
       });
     }
   }
+
+  signUpWithEmail(String Email, String Password, String Name, BuildContext context) async{
+    try {
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: Email,
+        password: Password,
+      );
+      Get.offAll(HomePage());
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        final snackBar = SnackBar(
+          duration: Duration(milliseconds: 1500,),
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Error',
+            message: 'The password provided is too weak.',
+            contentType: ContentType.failure,
+          ),
+        );
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(snackBar);
+
+      } else if (e.code == 'email-already-in-use') {
+        final snackBar = SnackBar(
+          duration: Duration(milliseconds: 1500,),
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Error',
+            message: 'The account already exists for that email.',
+            contentType: ContentType.failure,
+          ),
+        );
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(snackBar);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
 
 }

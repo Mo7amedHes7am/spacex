@@ -1,9 +1,13 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:spacex/Design/Auth/Signup.dart';
 import 'package:spacex/Design/Auth/forgot_screen.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
+import 'package:spacex/Design/Main/Home.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -152,6 +156,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       Center(
                         child: InkWell(
                           onTap: ()async {
+                            await signInWithEmail(emailcontroller.text.toString(), passwordcontroller.text.toString(), context);
                           },
                           child: Container(
                             width: 280.w,
@@ -181,4 +186,60 @@ class _SigninScreenState extends State<SigninScreen> {
       ),
     );
   }
+
+  Future<bool> checkIfDocExists(String docId) async {
+    try {
+      // Get reference to Firestore collection
+      var collectionRef = FirebaseFirestore.instance.collection('users');
+
+      var docm = await collectionRef.doc(docId).get();
+      return docm.exists;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  signInWithEmail(String email, String password, BuildContext context)async{
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: password
+      );
+      Get.offAll(HomePage());
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        final snackBar = SnackBar(
+          duration: Duration(milliseconds: 1500,),
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Error',
+            message: 'There Is No Account With This Email.',
+            contentType: ContentType.failure,
+          ),
+        );
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(snackBar);
+      }
+      else if (e.code == 'wrong-password') {
+        final snackBar = SnackBar(
+          duration: Duration(milliseconds: 1500,),
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Error',
+            message: 'Wrong Password.',
+            contentType: ContentType.failure,
+          ),
+        );
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(snackBar);
+      }
+    }
+  }
+
 }

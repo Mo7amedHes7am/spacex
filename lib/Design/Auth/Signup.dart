@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:spacex/Design/Auth/Signin.dart';
 import 'package:spacex/Design/Auth/Signup2.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
@@ -77,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 children: [
                                   InkWell(
                                     onTap: ()async{
-                                      Get.offAll(HomePage());
+                                      await signInWithGoogle();
                                     },
                                     child: Container(
                                       height: 45.h,
@@ -190,4 +194,51 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+
+  signInWithGoogle() async{
+
+    final GoogleSignInAccount? guser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication gauth = await guser!.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+        accessToken: gauth.accessToken,
+        idToken: gauth.idToken
+    );
+
+    await  FirebaseAuth.instance.signInWithCredential(credential);
+
+    if (await checkIfDocExists(FirebaseAuth.instance.currentUser!.uid.toString())) {
+      Get.offAll(HomePage());
+    }
+    else{
+      final user = <String, dynamic>{
+        "uid": FirebaseAuth.instance.currentUser!.uid,
+        "fname": guser.displayName.toString().split(" ")[0],
+        "lname": guser.displayName.toString().split(" ")[1],
+        "email": guser.email,
+        "imgurl": guser.photoUrl==null?'https://firebasestorage.googleapis.com/v0/b/exa-spacex.appspot.com/o/profileimg%2FUser-Profile-PNG.png?alt=media&token=211e1cad-8e06-4ba5-b295-a1651d4d988e':guser.photoUrl,
+      };
+
+      await FirebaseFirestore
+          .instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set(user)
+          .onError((e, _) => print("Error writing document: $e"));
+
+      Get.offAll(HomePage());
+    }
+  }
+
+  Future<bool> checkIfDocExists(String docId) async {
+    try {
+      var collectionRef = FirebaseFirestore.instance.collection('users');
+      var docm = await collectionRef.doc(docId).get();
+      return docm.exists;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+
 }

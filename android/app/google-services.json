@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "528039122062",
+    "firebase_url": "https://exa-spacex-default-rtdb.firebaseio.com",
+    "project_id": "exa-spacex",
+    "storage_bucket": "exa-spacex.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528039122062:android:6d70cc6b195774c7daa5df",
+        "android_client_info": {
+          "package_name": "com.exapps.spacex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528039122062-dsub4i320q3gdoui21soh65eqbafrb8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGxo1TQH6X15gtITX-A2TQoTqVcr6L9Rc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528039122062-dsub4i320q3gdoui21soh65eqbafrb8h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

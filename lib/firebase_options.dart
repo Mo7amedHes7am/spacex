@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCGxo1TQH6X15gtITX-A2TQoTqVcr6L9Rc',
-    appId: '1:528039122062:android:6d70cc6b195774c7daa5df',
+    appId: '1:528039122062:android:1190c92d5f0e9ebbdaa5df',
     messagingSenderId: '528039122062',
     projectId: 'exa-spacex',
     databaseURL: 'https://exa-spacex-default-rtdb.firebaseio.com',
@@ -60,12 +60,14 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAIH9k1Q7Jh6jrDiLBxwH7-8b831YoB6YQ',
-    appId: '1:528039122062:ios:4daffced030261f4daa5df',
+    appId: '1:528039122062:ios:92843f1b8fc11f21daa5df',
     messagingSenderId: '528039122062',
     projectId: 'exa-spacex',
     databaseURL: 'https://exa-spacex-default-rtdb.firebaseio.com',
     storageBucket: 'exa-spacex.appspot.com',
-    iosClientId: '528039122062-pg5onl49tvdlt83ba8qt2s9gb3vls2lr.apps.googleusercontent.com',
-    iosBundleId: 'com.exapps.spacex',
+    androidClientId: '528039122062-96b4ds3aktmtldajfnot0tng3cap025u.apps.googleusercontent.com',
+    iosClientId: '528039122062-qjpcfks0h5firacaecuol3qdqlgnd3hi.apps.googleusercontent.com',
+    iosBundleId: 'com.exapps.stormx',
   );
+
 }

@@ -39,8 +39,8 @@ class _SplashscreenState extends State<SplashScreen> {
           image: DecorationImage(image: AssetImage("assets/galaxy.gif"),fit: BoxFit.fill)
         ),
         child: Center(
-          child: Text("Space-X",style: TextStyle(
-            fontFamily: "Droid Arabic",
+          child: Text("Storm-X",style: TextStyle(
+            fontFamily: "ProtestGuerrilla",
             color: background,
             fontWeight: FontWeight.w700,
             fontSize: 72.sp

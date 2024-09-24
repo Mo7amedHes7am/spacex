@@ -49,6 +49,10 @@ flutter:
       fonts:
         - asset: fonts/Khediawy.ttf
 
+    - family: ProtestGuerrilla
+      fonts:
+        - asset: fonts/ProtestGuerrilla.ttf
+
     - family: Calibri
       fonts:
         - asset: fonts/calibri.ttf

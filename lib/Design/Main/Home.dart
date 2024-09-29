@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:get/get.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
+import 'package:spacex/Design/Pages/StormMap.dart';
+import 'package:spacex/Methods/Models/UserModel.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,10 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 Map<int,List<String>> explore_items = {
-  0:['What is Geomagnetic Storm?','Information Article','CBS 17',"assets/SolarDisturbance.png"],
-  1:['Geomagnetic storm Video','Educational Video','CTV News','assets/geomagneticstorm.jpg'],
-  2:['Geomagnetic storm Predictions','Using AI','Space-X App','assets/forecast.jpg'],
-  3:['Geomagnetic storm Visualized Data','Chart Display','ResearchGate','assets/Magnetometer.jpg'],
+  0:['Geomagnetic Storm Map','Map Display','Storm-X App','assets/worldmap.webp'],
 };
 Map<int,List<String>> games_items = {
   0:['Geomagnetic Storm Quiz',"assets/quiz.png","quiz"],
@@ -25,50 +27,71 @@ Map<int,List<String>> games_items = {
   5:['Geomagnetic storm Hangman','assets/hangman.png','hangman'],
 };
 
+late UserModel user;
+
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    return GetUserData(context);
+  }
+
+  GetUserData(BuildContext context){
+    return StreamBuilder(
+        stream:  FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            user = UserModel.fromMap(snapshot.data!.data()!);
+            return DataScreen(NetworkImage(user.imgurl));
+          }
+          else{
+            return Scaffold(body: Center(child: CircularProgressIndicator(color: primary,),),);
+          }
+        });
+  }
+
+  DataScreen(ImageProvider image){
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          constraints: BoxConstraints(
-            minHeight: MediaQuery.sizeOf(context).height
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 20.sp),
-          width: MediaQuery.sizeOf(context).width,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [
-                  Color(0xff070b23),
-                  Color(0xff060d24),
-                  Color(0xff061129)
-                ],
-              transform: GradientRotation(45.sp),
-              stops: [0.0,0.33,0.67]
-            )
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                AppBar_Section(context),
-                Information_Section(context),
-                Games_Section(context),
-              ],
+          body: Container(
+            constraints: BoxConstraints(
+                minHeight: MediaQuery.sizeOf(context).height
             ),
-          ),
-        )
+            padding: EdgeInsets.symmetric(horizontal: 20.sp),
+            width: MediaQuery.sizeOf(context).width,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [
+                      Color(0xff070b23),
+                      Color(0xff060d24),
+                      Color(0xff061129)
+                    ],
+                    transform: GradientRotation(45.sp),
+                    stops: [0.0,0.33,0.67]
+                )
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppBar_Section(context, image),
+                  Information_Section(context),
+                  Games_Section(context),
+                ],
+              ),
+            ),
+          )
       ),
     );
   }
 
-  Widget AppBar_Section(BuildContext context) {
+  Widget AppBar_Section(BuildContext context, ImageProvider image) {
     return Column(
       children: [
         SizedBox(height: 10.h,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image(image: AssetImage("assets/logo.png"),width: 50.sp,height: 50.sp,color: background,),
+            Text('Storm-X',style: TextStyle(color: Colors.white,fontSize: 30.sp,fontWeight: FontWeight.bold,fontFamily: 'ProtestGuerrilla'),),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -90,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                           image: Svg('assets/certificate.svg'),color: background,
                         ),
                         SizedBox(width:5.sp),
-                        Text("0",
+                        Text(user.points.toString(),
                           style: TextStyle(
                               color: background,
                               fontSize: 16.sp,
@@ -103,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(width: 10.sp,),
-                CircleAvatar(radius: 20.sp,backgroundImage: AssetImage("assets/sun.jpg"))
+                CircleAvatar(radius: 20.sp,backgroundImage: image)
               ],
             ),
           ],
@@ -148,54 +171,62 @@ class _HomePageState extends State<HomePage> {
   Widget ExploreCard(BuildContext context, int index) {
     final item = explore_items[index]!;
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 150.sp,
-              height: 150.sp,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15.sp),
-                image: DecorationImage(image: AssetImage(item[3]),fit: BoxFit.cover,opacity: 0.8),
-                gradient: LinearGradient(
-                    colors: [Colors.transparent,Colors.white],
-                  transform: GradientRotation(90.sp),
-                  stops: [0.0,0.8]
-                )
-              ),
-            ),
-            SizedBox(height: 10.sp,),
-            SizedBox(
-              width: 150.sp,
-              child: Text(item[0],
-                style: TextStyle(
-                  fontFamily: "Droid Arabic",
-                  color: background,
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                  height: 1
+        InkWell(
+          onTap: (){
+            if (index==0) {
+              Get.to(StormMap());
+            }
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 150.sp,
+                height: 150.sp,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.sp),
+                  image: DecorationImage(image: AssetImage(item[3]),fit: BoxFit.cover,opacity: 0.8),
+                  gradient: LinearGradient(
+                      colors: [Colors.transparent,Colors.white],
+                    transform: GradientRotation(90.sp),
+                    stops: [0.0,0.8]
+                  )
                 ),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
-            SizedBox(height: 10.sp,),
-            SizedBox(
-              width: 150.sp,
-              child: Text("${item[1]} - ${item[2]}",
-                style: TextStyle(
+              SizedBox(height: 10.sp,),
+              SizedBox(
+                width: 150.sp,
+                child: Text(item[0],
+                  style: TextStyle(
                     fontFamily: "Droid Arabic",
-                    color: silverdark,
-                    fontSize: 14.sp,
+                    color: background,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
+                    height: 1
+                  ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
-          ],
+              SizedBox(height: 10.sp,),
+              SizedBox(
+                width: 150.sp,
+                child: Text("${item[1]} - ${item[2]}",
+                  style: TextStyle(
+                      fontFamily: "Droid Arabic",
+                      color: silverdark,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ),
         SizedBox(width: 20.sp,)
       ],
@@ -222,7 +253,7 @@ class _HomePageState extends State<HomePage> {
           ),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: explore_items.length,
+            itemCount: games_items.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return GameCard(context,index);

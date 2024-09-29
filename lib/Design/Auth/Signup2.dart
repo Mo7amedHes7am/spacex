@@ -1,4 +1,5 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -360,6 +361,22 @@ class _SignupScreenState extends State<SignupScreen2> {
         email: Email,
         password: Password,
       );
+      final user = <String, dynamic>{
+        "uid": FirebaseAuth.instance.currentUser!.uid,
+        "fname": firstnamecontroller.text.toString(),
+        "lname": lastnamecontroller.text.toString(),
+        "email": emailcontroller.text.toString(),
+        "imgurl": 'https://firebasestorage.googleapis.com/v0/b/exa-spacex.appspot.com/o/profileimg%2FUser-Profile-PNG.png?alt=media&token=211e1cad-8e06-4ba5-b295-a1651d4d988e',
+        'points':0
+      };
+
+      await FirebaseFirestore
+          .instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set(user)
+          .onError((e, _) => print("Error writing document: $e"));
+
       Get.offAll(HomePage());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

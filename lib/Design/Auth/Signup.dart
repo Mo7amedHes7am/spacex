@@ -217,6 +217,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         "lname": guser.displayName.toString().split(" ")[1],
         "email": guser.email,
         "imgurl": guser.photoUrl==null?'https://firebasestorage.googleapis.com/v0/b/exa-spacex.appspot.com/o/profileimg%2FUser-Profile-PNG.png?alt=media&token=211e1cad-8e06-4ba5-b295-a1651d4d988e':guser.photoUrl,
+        'points':0
       };
 
       await FirebaseFirestore

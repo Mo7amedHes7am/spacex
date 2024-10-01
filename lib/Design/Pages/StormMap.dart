@@ -50,7 +50,7 @@ class _StormMapState extends State<StormMap> {
         backgroundColor: primary,
         appBar: AppBar(
           leading: BackButton(color: background,style: ButtonStyle(iconSize: WidgetStatePropertyAll(32.sp)),),
-          title: Text("Geomagnetic Storm Map",
+          title: Text("May 2024 Geomagnetic Storm Map",
             style: TextStyle(
                 fontSize: 24.sp,
                 color: background,
@@ -87,7 +87,7 @@ class _StormMapState extends State<StormMap> {
                 padding: EdgeInsets.symmetric(horizontal: 20.sp),
                 child: RichText(text: TextSpan(
                     children: [
-                      TextSpan(text: "This Map Is generating Based on Model Trained by Database provided by ",
+                      TextSpan(text: "This map was generated using ",
                         style: TextStyle(
                             fontSize: 20.sp,
                             color: background,
@@ -110,7 +110,7 @@ class _StormMapState extends State<StormMap> {
                           height: 2.sp
                         )
                       ),
-                      TextSpan(text: " .",
+                      TextSpan(text: " data to visualize the may 2024 geomagnetic storm phenomenon.",
                         style: TextStyle(
                             fontSize: 20.sp,
                             color: background,

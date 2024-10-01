@@ -6,6 +6,7 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:get/get.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Pages/StormMap.dart';
+import 'package:spacex/Methods/Models/ExploreModel.dart';
 import 'package:spacex/Methods/Models/UserModel.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,9 +16,48 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-Map<int,List<String>> explore_items = {
-  0:['Geomagnetic Storm Map','Map Display','Storm-X App','assets/worldmap.webp'],
+final Item0 = ExploreModel(
+    id: "0",
+    datatype: "",
+    imgurl: AssetImage("assets/worldmap.webp"),
+    source: "Storm-X App",
+    sourcelink: "",
+    subtitle: "Map Display",
+    title: "May 2024 Geomagnetic Storm Map",
+    type: 1,
+    content: []
+);
+
+final Item1 = ExploreModel(
+    id: "1",
+    datatype: "",
+    imgurl: AssetImage('assets/geomagneticstorm.jpg'),
+    source: 'Storm-X App',
+    sourcelink: "",
+    subtitle: 'AR Display',
+    title: 'May 2024 Geomagnetic Storm Augment Reality',
+    type: 1,
+    content: []
+);
+
+final Item2 = ExploreModel(
+    id: "2",
+    datatype: "",
+    imgurl: NetworkImage('https://i9.ytimg.com/vi/S1PgEgjX3JM/mqdefault.jpg?sqp=CNjy77cG-oaymwEmCMACELQB8quKqQMa8AEB-AHUBoAC4AOKAgwIABABGE4gWChlMA8=&rs=AOn4CLAPUqjT1PuXELyvoEV7cgLHZe1pOg'),
+    source: 'Storm-X Youtube',
+    sourcelink: "",
+    subtitle: 'Video Explantion',
+    title: 'Global geomagnetic storm and aurora activity',
+    type: 1,
+    content: []
+);
+
+Map<int,ExploreModel> explore_items = {
+  0 : Item0,
+  1 : Item1,
+  2 : Item2,
 };
+
 Map<int,List<String>> games_items = {
   0:['Geomagnetic Storm Quiz',"assets/quiz.png","quiz"],
   1:['Geomagnetic Storm Slide','assets/slidepuzzle.png','slide'],
@@ -41,6 +81,30 @@ class _HomePageState extends State<HomePage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             user = UserModel.fromMap(snapshot.data!.data()!);
+            return GetData(context);
+          }
+          else{
+            return Scaffold(body: Center(child: CircularProgressIndicator(color: primary,),),);
+          }
+        });
+  }
+
+  GetData(BuildContext context){
+    return StreamBuilder(
+        stream:  FirebaseFirestore.instance.collection('data').snapshots(),
+        builder: (context, snapshot) {
+          explore_items.clear();
+          explore_items = {
+            0 : Item0,
+            1 : Item1,
+            2 : Item2,
+          };
+          if (snapshot.hasData) {
+            for(var data in snapshot.data!.docs){
+              if (data.data()['type']==1) {
+                explore_items[explore_items.length]=ExploreModel.fromMap(data.data());
+              }
+            }
             return DataScreen(NetworkImage(user.imgurl));
           }
           else{
@@ -177,6 +241,14 @@ class _HomePageState extends State<HomePage> {
           onTap: (){
             if (index==0) {
               Get.to(StormMap());
+            }else if(index==1){
+
+            }else if(index==2){
+
+            }else{
+              if(item.datatype=="article"){
+                
+              }
             }
           },
           child: Column(
@@ -188,7 +260,7 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15.sp),
-                  image: DecorationImage(image: AssetImage(item[3]),fit: BoxFit.cover,opacity: 0.8),
+                  image: DecorationImage(image: item.imgurl,fit: BoxFit.cover,opacity: 0.8),
                   gradient: LinearGradient(
                       colors: [Colors.transparent,Colors.white],
                     transform: GradientRotation(90.sp),
@@ -199,7 +271,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10.sp,),
               SizedBox(
                 width: 150.sp,
-                child: Text(item[0],
+                child: Text(item.title,
                   style: TextStyle(
                     fontFamily: "Droid Arabic",
                     color: background,
@@ -214,7 +286,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10.sp,),
               SizedBox(
                 width: 150.sp,
-                child: Text("${item[1]} - ${item[2]}",
+                child: Text("${item.subtitle} - ${item.source}",
                   style: TextStyle(
                       fontFamily: "Droid Arabic",
                       color: silverdark,

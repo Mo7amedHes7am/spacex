@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,11 +30,11 @@ Widget PostCard({
                 Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage('assets/sun.jpg'),
+                      backgroundImage: NetworkImage(post.sender[0]),
                       radius: 20.sp,
                     ),
                     SizedBox(width: 12.sp,),
-                    Text("Nasa Space Agency",
+                    Text(post.sender[1],
                       style: TextStyle(
                           color: primary,
                           fontSize: 12.sp,
@@ -42,7 +44,7 @@ Widget PostCard({
                     ),
                   ],
                 ),
-                Text(lastSeenMessage(1715374800000),
+                Text(lastSeenMessage(post.submittedat),
                   style: TextStyle(
                     color: primary,
                     fontSize: 12.sp,
@@ -53,7 +55,7 @@ Widget PostCard({
               ],
             ),
             SizedBox(height: 25.sp,),
-            Text("Mohamed Hesham Mohamed Hesham Mohamed Hesham Mohamed Hesham",
+            Text(post.title,
               style: TextStyle(
                 color: primary,
                 fontSize: 20.sp,
@@ -65,7 +67,7 @@ Widget PostCard({
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.sp),
               child: ReadMoreText(
-                'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
+                post.content,
                 trimMode: TrimMode.Line,
                 trimLines: 3,
                 style: TextStyle(
@@ -90,11 +92,11 @@ Widget PostCard({
                 ),
               ),
             ),
-            SizedBox(height: 10.sp,),
-            InkWell(
+            post.imgurl=="noimg"?SizedBox(height: 0,):SizedBox(height: 10.sp,),
+            post.imgurl=="noimg"?SizedBox(height: 0,):InkWell(
               onTap: (){
                 final imageProvider = Image.network(
-                    "https://eoimages.gsfc.nasa.gov/images/imagerecords/152000/152815/auroraborealis_vir_20240511.jpg"
+                    post.imgurl
                 ).image;
                 showImageViewer(context, imageProvider, onViewerDismissed: () {
                   print("dismissed");
@@ -107,7 +109,7 @@ Widget PostCard({
                 decoration: BoxDecoration(
                   image: DecorationImage(
                       image: NetworkImage(
-                          "https://eoimages.gsfc.nasa.gov/images/imagerecords/152000/152815/auroraborealis_vir_20240511.jpg"
+                          post.imgurl
                       ),
                     fit: BoxFit.cover,
                   ),
@@ -123,12 +125,25 @@ Widget PostCard({
                   child: Row(
                     children: [
                       IconButton(
-                        onPressed: () {
-
+                        onPressed: () async {
+                          if (post.likes.contains(FirebaseAuth.instance.currentUser!.uid)) {
+                            var likes = post.likes;
+                            await likes.remove(FirebaseAuth.instance.currentUser!.uid);
+                            FirebaseFirestore.instance.collection("posts").doc(post.id).update({
+                              'likes':likes
+                            });
+                          }else{
+                            var likes = post.likes;
+                            likes.add(FirebaseAuth.instance.currentUser!.uid);
+                            await FirebaseFirestore.instance.collection("posts").doc(post.id).update({
+                              'likes':likes
+                            });
+                          }
                         },
-                        icon: Icon(FontAwesomeIcons.thumbsUp,size: 24.sp,)
+                        icon: Icon(post.likes.contains(FirebaseAuth.instance.currentUser!.uid)?
+                        FontAwesomeIcons.solidThumbsUp:FontAwesomeIcons.thumbsUp,size: 24.sp,)
                       ),
-                      Text("20",
+                      Text(post.likes.length.toString(),
                         style: TextStyle(
                           color: primary,
                           fontSize: 16.sp,
@@ -148,7 +163,7 @@ Widget PostCard({
                           },
                           icon: Icon(FontAwesomeIcons.comments,size: 24.sp,)
                       ),
-                      Text("250",
+                      Text(post.comments.length.toString(),
                         style: TextStyle(
                           color: primary,
                           fontSize: 16.sp,
@@ -168,7 +183,7 @@ Widget PostCard({
                           },
                           icon: Icon(FontAwesomeIcons.share,size: 24.sp,)
                       ),
-                      Text("25",
+                      Text(post.shares.toString(),
                         style: TextStyle(
                           color: primary,
                           fontSize: 16.sp,

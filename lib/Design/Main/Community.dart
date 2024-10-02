@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +12,7 @@ import 'package:spacex/Methods/Models/UserModel.dart';
 
 List<PostModel> posts = [];
 List<UserModel> users = [];
+Timer? _timer;
 
 class CommunityPage extends StatefulWidget {
   const CommunityPage({super.key});
@@ -23,10 +26,28 @@ class _CommunityPageState extends State<CommunityPage> {
   Widget build(BuildContext context) {
     return GetPosts(context);
   }
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer!.cancel();
+    super.dispose();
+  }
+
+  void startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+      });
+    });
+  }
 
   GetPosts(BuildContext context){
     return StreamBuilder(
-        stream:  FirebaseFirestore.instance.collection('posts').snapshots(),
+        stream:  FirebaseFirestore.instance.collection('posts').orderBy('submittedat',descending: true).snapshots(),
         builder: (context, snapshot) {
           posts.clear();
           if (snapshot.hasData) {
@@ -81,7 +102,7 @@ class _CommunityPageState extends State<CommunityPage> {
             ),
             SizedBox(width: 10.sp,),
             Image.network(
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/1224px-NASA_logo.svg.png",
+              "https://firebasestorage.googleapis.com/v0/b/exa-spacex.appspot.com/o/nasa-logo.png?alt=media&token=1118961f-ca8c-457a-b469-cf16aaf38127",
               width: 30.sp,
             ),
           ],

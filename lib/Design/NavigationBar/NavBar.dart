@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_navigation_bar/responsive_navigation_bar.dart';
-import 'package:spacex/Design/Auth/forgot_screen.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Main/Community.dart';
 import 'package:spacex/Design/Main/Home.dart';

@@ -210,7 +210,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     await  FirebaseAuth.instance.signInWithCredential(credential);
 
     if (await checkIfDocExists(FirebaseAuth.instance.currentUser!.uid.toString())) {
-      Get.offAll(HomePage());
+      Get.offAll(HomeMain());
     }
     else{
       final user = <String, dynamic>{

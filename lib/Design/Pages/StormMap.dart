@@ -98,7 +98,7 @@ class _StormMapState extends State<StormMap> {
                         ),
                       ),
                       WidgetSpan(child:Image.network(
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/1224px-NASA_logo.svg.png",
+                        "https://firebasestorage.googleapis.com/v0/b/exa-spacex.appspot.com/o/nasa-logo.png?alt=media&token=1118961f-ca8c-457a-b469-cf16aaf38127",
                         width: 48.sp,
                       ),
                         style: TextStyle(

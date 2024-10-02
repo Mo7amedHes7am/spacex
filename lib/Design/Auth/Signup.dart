@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -227,6 +228,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set(user)
           .onError((e, _) => print("Error writing document: $e"));
+      FirebaseMessaging.instance.subscribeToTopic("news");
 
       Get.offAll(HomeMain());
     }

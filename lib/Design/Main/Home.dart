@@ -79,7 +79,6 @@ class _HomePageState extends State<HomePage> {
     return GetData(context);
   }
 
-
   GetData(BuildContext context){
     return StreamBuilder(
         stream:  FirebaseFirestore.instance.collection('data').snapshots(),

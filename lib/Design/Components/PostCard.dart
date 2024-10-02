@@ -5,9 +5,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:readmore/readmore.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Methods/GlobalMethods.dart';
+import 'package:spacex/Methods/Models/PostModel.dart';
 
 Widget PostCard({
-  required BuildContext context
+  required BuildContext context,
+  required PostModel post
 }){
   return Column(
     children: [

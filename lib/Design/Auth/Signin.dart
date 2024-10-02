@@ -1,6 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -206,6 +207,7 @@ class _SigninScreenState extends State<SigninScreen> {
           email: email,
           password: password
       );
+      FirebaseMessaging.instance.subscribeToTopic("news");
       Get.offAll(HomeMain());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

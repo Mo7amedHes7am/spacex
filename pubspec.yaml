@@ -30,6 +30,9 @@ dependencies:
   url_launcher: ^6.3.0
   youtube_player_flutter: ^9.1.1
   responsive_navigation_bar: ^5.0.2
+  readmore: ^3.0.0
+  easy_image_viewer: ^1.5.1
+
 
 dev_dependencies:
   flutter_test:

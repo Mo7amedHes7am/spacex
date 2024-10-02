@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:get/get.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
+import 'package:spacex/Design/NavigationBar/NavBar.dart';
 import 'package:spacex/Design/Pages/Articles.dart';
 import 'package:spacex/Design/Pages/StormMap.dart';
 import 'package:spacex/Design/Pages/Videos.dart';
@@ -71,27 +72,13 @@ Map<int,List<String>> games_items = {
   5:['Geomagnetic storm Hangman','assets/hangman.png','hangman'],
 };
 
-late UserModel user;
 
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return GetUserData(context);
+    return GetData(context);
   }
 
-  GetUserData(BuildContext context){
-    return StreamBuilder(
-        stream:  FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            user = UserModel.fromMap(snapshot.data!.data()!);
-            return GetData(context);
-          }
-          else{
-            return Scaffold(body: Center(child: CircularProgressIndicator(color: primary,),),);
-          }
-        });
-  }
 
   GetData(BuildContext context){
     return StreamBuilder(

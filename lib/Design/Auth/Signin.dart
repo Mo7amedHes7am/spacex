@@ -8,6 +8,7 @@ import 'package:spacex/Design/Auth/Signup.dart';
 import 'package:spacex/Design/Auth/forgot_screen.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Main/Home.dart';
+import 'package:spacex/Design/NavigationBar/NavBar.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -205,7 +206,7 @@ class _SigninScreenState extends State<SigninScreen> {
           email: email,
           password: password
       );
-      Get.offAll(HomePage());
+      Get.offAll(HomeMain());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         final snackBar = SnackBar(

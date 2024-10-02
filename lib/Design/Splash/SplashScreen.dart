@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:spacex/Design/Auth/Signup.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Main/Home.dart';
+import 'package:spacex/Design/NavigationBar/NavBar.dart';
 import 'package:spacex/main.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _SplashscreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(Duration(seconds: 3)).then((value) {
       if (FirebaseAuth.instance.currentUser != null) {
-        Get.off(HomePage());
+        Get.off(HomeMain());
       }else{
         Get.off(SignUpScreen());
       }

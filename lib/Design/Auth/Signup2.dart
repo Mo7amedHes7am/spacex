@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:spacex/Design/Auth/Signup.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Main/Home.dart';
+import 'package:spacex/Design/NavigationBar/NavBar.dart';
 
 bool x = false;
 class SignupScreen2 extends StatefulWidget
@@ -377,7 +378,7 @@ class _SignupScreenState extends State<SignupScreen2> {
           .set(user)
           .onError((e, _) => print("Error writing document: $e"));
 
-      Get.offAll(HomePage());
+      Get.offAll(HomeMain());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         final snackBar = SnackBar(

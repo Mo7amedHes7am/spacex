@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 class ExploreModel{
 
   String id, datatype, source, sourcelink, subtitle, title;
-  int type;
+  int type, datetime;
   List<String> content;
   ImageProvider imgurl;
 
@@ -17,6 +17,7 @@ class ExploreModel{
     required this.title,
     required this.type,
     required this.content,
+    required this.datetime,
   });
 
   factory ExploreModel.fromMap(Map<String, dynamic> map) {
@@ -28,6 +29,7 @@ class ExploreModel{
       sourcelink: map["sourcelink"],
       subtitle: map["subtitle"],
       title: map["title"],
+      datetime: map["datetime"],
       type: map["type"],
       content: List<String>.from(map["content"]),
     );
@@ -36,6 +38,7 @@ class ExploreModel{
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'datetime': datetime,
       'datatype': datatype,
       'imgurl': imgurl,
       'source': source,

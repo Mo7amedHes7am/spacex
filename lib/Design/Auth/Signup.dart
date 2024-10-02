@@ -10,6 +10,7 @@ import 'package:spacex/Design/Auth/Signin.dart';
 import 'package:spacex/Design/Auth/Signup2.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Main/Home.dart';
+import 'package:spacex/Design/NavigationBar/NavBar.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -227,7 +228,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .set(user)
           .onError((e, _) => print("Error writing document: $e"));
 
-      Get.offAll(HomePage());
+      Get.offAll(HomeMain());
     }
   }
 

@@ -5,7 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:get/get.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
+import 'package:spacex/Design/Pages/Articles.dart';
 import 'package:spacex/Design/Pages/StormMap.dart';
+import 'package:spacex/Design/Pages/Videos.dart';
 import 'package:spacex/Methods/Models/ExploreModel.dart';
 import 'package:spacex/Methods/Models/UserModel.dart';
 
@@ -25,7 +27,8 @@ final Item0 = ExploreModel(
     subtitle: "Map Display",
     title: "May 2024 Geomagnetic Storm Map",
     type: 1,
-    content: []
+    content: [],
+    datetime:0
 );
 
 final Item1 = ExploreModel(
@@ -37,7 +40,8 @@ final Item1 = ExploreModel(
     subtitle: 'AR Display',
     title: 'May 2024 Geomagnetic Storm Augment Reality',
     type: 1,
-    content: []
+    content: [],
+    datetime:0
 );
 
 final Item2 = ExploreModel(
@@ -49,13 +53,13 @@ final Item2 = ExploreModel(
     subtitle: 'Video Explantion',
     title: 'Global geomagnetic storm and aurora activity',
     type: 1,
-    content: []
+    content: [],
+    datetime:0
 );
 
 Map<int,ExploreModel> explore_items = {
   0 : Item0,
   1 : Item1,
-  2 : Item2,
 };
 
 Map<int,List<String>> games_items = {
@@ -97,7 +101,6 @@ class _HomePageState extends State<HomePage> {
           explore_items = {
             0 : Item0,
             1 : Item1,
-            2 : Item2,
           };
           if (snapshot.hasData) {
             for(var data in snapshot.data!.docs){
@@ -114,37 +117,37 @@ class _HomePageState extends State<HomePage> {
   }
 
   DataScreen(ImageProvider image){
-    return SafeArea(
-      child: Scaffold(
-          body: Container(
-            constraints: BoxConstraints(
-                minHeight: MediaQuery.sizeOf(context).height
+    return Scaffold(
+      extendBody: true,
+        body: Container(
+          constraints: BoxConstraints(
+              minHeight: MediaQuery.sizeOf(context).height
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 20.sp),
+          width: MediaQuery.sizeOf(context).width,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    Color(0xff070b23),
+                    Color(0xff060d24),
+                    Color(0xff061129)
+                  ],
+                  transform: GradientRotation(45.sp),
+                  stops: [0.0,0.33,0.67]
+              )
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppBar_Section(context, image),
+                Information_Section(context),
+                Games_Section(context),
+                SizedBox(height: 100.sp,)
+              ],
             ),
-            padding: EdgeInsets.symmetric(horizontal: 20.sp),
-            width: MediaQuery.sizeOf(context).width,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [
-                      Color(0xff070b23),
-                      Color(0xff060d24),
-                      Color(0xff061129)
-                    ],
-                    transform: GradientRotation(45.sp),
-                    stops: [0.0,0.33,0.67]
-                )
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppBar_Section(context, image),
-                  Information_Section(context),
-                  Games_Section(context),
-                ],
-              ),
-            ),
-          )
-      ),
+          ),
+        )
     );
   }
 
@@ -243,11 +246,12 @@ class _HomePageState extends State<HomePage> {
               Get.to(StormMap());
             }else if(index==1){
 
-            }else if(index==2){
-
             }else{
               if(item.datatype=="article"){
-                
+                Get.to(ArticleScreen(article: item,));
+              }
+              else if(item.datatype=="video"){
+                Get.to(VideoScreen(video:item));
               }
             }
           },

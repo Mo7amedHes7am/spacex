@@ -28,6 +28,8 @@ dependencies:
   firebase_database: ^11.1.2
   webview_flutter: ^4.9.0
   url_launcher: ^6.3.0
+  youtube_player_flutter: ^9.1.1
+  responsive_navigation_bar: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +48,10 @@ flutter:
     - family: Senmoly Caligan
       fonts:
         - asset: fonts/SenmolyCaligan.otf
+
+    - family: Fredoka
+      fonts:
+        - asset: fonts/Fredoka.ttf
 
     - family: Khediawy
       fonts:

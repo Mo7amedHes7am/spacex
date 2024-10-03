@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Pages/PostComments.dart';
 import 'package:spacex/Methods/GlobalMethods.dart';
@@ -181,7 +182,11 @@ Widget PostCard({
                     children: [
                       IconButton(
                           onPressed: () {
-
+                            Share.share('from *Nasa*\n${post.title}\n${post.content}');
+                            int shares = post.shares;
+                            FirebaseFirestore.instance.collection("posts").doc(post.id).update({
+                              'shares':post.shares+1
+                            });
                           },
                           icon: Icon(FontAwesomeIcons.share,size: 24.sp,)
                       ),

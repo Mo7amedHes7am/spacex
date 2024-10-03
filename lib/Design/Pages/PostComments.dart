@@ -40,7 +40,7 @@ class _PostCommentsState extends State<PostComments> {
     _timer!.cancel();
     super.dispose();
   }
-  
+
   void startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {

@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Splash/SplashScreen.dart';
+import 'package:spacex/NewDesign/NewSplash/NewSplash.dart';
 import 'package:spacex/firebase_options.dart';
 
 displaynotifications(){
@@ -162,7 +163,7 @@ class _MyAppState extends State<MyApp> {
       builder: (_ , child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          home: SafeArea(child: SplashScreen()),
+          home: SafeArea(child: NewSplashScreen()),
         );
       },
     );

@@ -11,6 +11,7 @@ import 'package:spacex/Design/Main/Home.dart';
 import 'package:spacex/Design/Pages/Videos.dart';
 import 'package:spacex/Methods/GlobalMethods.dart';
 import 'package:spacex/Methods/Models/QuizModel.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 late QuizModel quiz;
 bool take = false;
@@ -18,6 +19,9 @@ bool reveal = false;
 bool finish = false;
 Timer? _timer;
 int total = 0;
+late AudioPlayer player = AudioPlayer();
+
+int corrects = 0;
 late int timetaken;
 late int timefinish;
 class QuizScreen extends StatefulWidget {
@@ -37,6 +41,10 @@ class _QuizScreenState extends State<QuizScreen> {
     reveal = false;
     take = false;
     finish = false;
+    corrects = 0;
+    total = 0;
+    player = AudioPlayer();
+    player.setReleaseMode(ReleaseMode.stop);
     super.initState();
   }
 
@@ -75,14 +83,14 @@ class _QuizScreenState extends State<QuizScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(Icons.timer,color: background,size: 24.sp,),
+                    Icon(Icons.timer,color: timefinish-timetaken<=5000?CupertinoColors.destructiveRed:background,size: 24.sp,),
                     SizedBox(width: 15.sp,),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(printDuration(timetaken,timefinish),
                         style: TextStyle(
                             fontSize: 20.sp,
-                            color: background,
+                            color: timefinish-timetaken<=5000?CupertinoColors.destructiveRed:background,
                             fontWeight: FontWeight.bold,
                             fontFamily: "Droid Arabic"
                         ),
@@ -123,6 +131,26 @@ class _QuizScreenState extends State<QuizScreen> {
                          children: [
                            InkWell(
                              onTap:(){
+                               if (!reveal && q==index) {
+                                 corrects += 1;
+                                 WidgetsBinding.instance.addPostFrameCallback((_) async {
+                                   await player.setSource(AssetSource('audio/right.mp3'));
+                                   await player.resume();
+                                 });
+                                 // AssetsAudioPlayer.newPlayer().open(
+                                 //   Audio("audio/right.mp3"),
+                                 //   autoStart: true,
+                                 //   showNotification: true,
+                                 // );
+                               }else if(!reveal && q!=index){
+                                 WidgetsBinding.instance.addPostFrameCallback((_) async {
+                                   await player.setSource(AssetSource('audio/wrong.mp3'));
+                                   await player.resume();
+                                 });
+                               }
+                               setState(() {
+                                 reveal = true;
+                               });
 
                             },
                              child: Container(
@@ -149,7 +177,37 @@ class _QuizScreenState extends State<QuizScreen> {
                        );
                      },
                  ),
-            ]
+                InkWell(
+                  onTap:(){
+                    setState(() {
+                      if (total==quiz.questions.length-1) {
+                        return;
+                      }
+                      reveal = false;
+                      total+=1;
+                    });
+
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10.sp),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15.sp)
+                    ),
+                    child: Center(
+                      child: Text(total==quiz.questions.length-1?'Finish':"Next Question",
+                        style: TextStyle(
+                            fontSize: 20.sp,
+                            color: primary,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Calibri"
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ]
             ),
           ),
         ),

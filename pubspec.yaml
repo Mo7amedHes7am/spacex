@@ -37,7 +37,7 @@ dependencies:
   firebase_messaging: ^15.0.4
   uuid: ^3.0.7
   share_plus: ^10.0.2
-  assets_audio_player: ^3.1.1
+  audioplayers: ^6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -51,7 +51,7 @@ flutter:
 
   assets:
     - assets/
-    - audio/
+    - assets/audio/
 
   fonts:
     - family: Senmoly Caligan

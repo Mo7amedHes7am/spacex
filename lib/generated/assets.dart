@@ -8,13 +8,24 @@ class Assets {
   static const String assetsForecast = 'assets/forecast.jpg';
   static const String assetsGalaxy = 'assets/galaxy.gif';
   static const String assetsGalaxy2 = 'assets/galaxy2.gif';
+  static const String assetsGeomagneticstorm = 'assets/geomagneticstorm.jpg';
   static const String assetsGiphy = 'assets/giphy.gif';
   static const String assetsGiphynobg = 'assets/giphynobg.gif';
+  static const String assetsHangman = 'assets/hangman.png';
+  static const String assetsJigsaw = 'assets/jigsaw.jpg';
   static const String assetsLogo = 'assets/logo.png';
   static const String assetsMagnetometer = 'assets/Magnetometer.jpg';
+  static const String assetsMemory = 'assets/memory.jpg';
+  static const String assetsQuiz = 'assets/quiz.png';
+  static const String assetsSlidepuzzle = 'assets/slidepuzzle.png';
+  static const String assetsSolarDisturbance = 'assets/SolarDisturbance.png';
   static const String assetsStars = 'assets/stars.gif';
   static const String assetsSun = 'assets/sun.jpg';
   static const String assetsSun orbiting = 'assets/sun orbiting.gif';
   static const String assetsSunorbiting = 'assets/sunorbiting.gif';
+  static const String assetsWordsearch = 'assets/wordsearch.png';
+  static const String assetsWorldmap = 'assets/worldmap.webp';
+  static const String audioCorrect = 'assets/audio/correct.mp3';
+  static const String audioWrong = 'assets/audio/wrong.mp3';
 
 }

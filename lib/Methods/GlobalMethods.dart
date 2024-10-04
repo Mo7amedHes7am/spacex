@@ -18,3 +18,15 @@ String lastSeenMessage(lastSeen) {
 
   return finalMessage;
 }
+
+String printDuration(int time1, int time2) {
+  DateTime now = DateTime.now();
+  Duration duration = DateTime.fromMillisecondsSinceEpoch(time2).difference(
+    DateTime.fromMillisecondsSinceEpoch(time1),
+  );
+  String negativeSign = duration.isNegative ? '-' : '';
+  String twoDigits(int n) => n.toString().padLeft(2, "0");
+  String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60).abs());
+  String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60).abs());
+  return "$twoDigitMinutes:$twoDigitSeconds";
+}

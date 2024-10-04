@@ -1,16 +1,18 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/NavigationBar/NavBar.dart';
 import 'package:spacex/Design/Pages/Articles.dart';
+import 'package:spacex/Design/Pages/Quizes.dart';
 import 'package:spacex/Design/Pages/StormMap.dart';
 import 'package:spacex/Design/Pages/Videos.dart';
 import 'package:spacex/Methods/Models/ExploreModel.dart';
-import 'package:spacex/Methods/Models/UserModel.dart';
+import 'package:spacex/Methods/Models/QuizModel.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -57,19 +59,14 @@ final Item2 = ExploreModel(
     content: [],
     datetime:0
 );
+Timer? _timer;
 
-Map<int,ExploreModel> explore_items = {
-  0 : Item0,
-  1 : Item1,
+Map<String,ExploreModel> explore_items = {
+  "0" : Item0,
+  "1" : Item1,
 };
 
-Map<int,List<String>> games_items = {
-  0:['Geomagnetic Storm Quiz',"assets/quiz.png","quiz"],
-  1:['Geomagnetic Storm Slide','assets/slidepuzzle.png','slide'],
-  2:['Geomagnetic storm Memory Game','assets/memory.jpg','memory'],
-  3:['Geomagnetic storm Jigsaw Puzzle','assets/jigsaw.jpg','puzzle'],
-  4:['Geomagnetic storm Crossword','assets/wordsearch.png','crossword'],
-  5:['Geomagnetic storm Hangman','assets/hangman.png','hangman'],
+Map<int,dynamic> games_items = {
 };
 
 
@@ -79,19 +76,41 @@ class _HomePageState extends State<HomePage> {
     return GetData(context);
   }
 
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer!.cancel();
+    super.dispose();
+  }
+
+  void startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+      });
+    });
+  }
+
   GetData(BuildContext context){
     return StreamBuilder(
         stream:  FirebaseFirestore.instance.collection('data').snapshots(),
         builder: (context, snapshot) {
           explore_items.clear();
           explore_items = {
-            0 : Item0,
-            1 : Item1,
+            "0" : Item0,
+            "1" : Item1,
           };
+          games_items.clear();
           if (snapshot.hasData) {
             for(var data in snapshot.data!.docs){
               if (data.data()['type']==1) {
-                explore_items[explore_items.length]=ExploreModel.fromMap(data.data());
+                explore_items[data.data()['id']]=ExploreModel.fromMap(data.data());
+              }else if(data.data()['type']=='quiz'){
+                games_items[games_items.length]=QuizModel.fromMap(data.data());
               }
             }
             return DataScreen(NetworkImage(user.imgurl));
@@ -149,7 +168,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
-                  padding: EdgeInsets.all(10.sp),
+                  padding: EdgeInsets.symmetric(horizontal:10.sp),
                   height: 40.sp,
                   decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.3),
@@ -160,13 +179,12 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image(
-                          width: 24.sp,
-                          height: 24.sp,
-                          image: Svg('assets/certificate.svg'),color: background,
+                        Icon(
+                          size: 24.sp,
+                          FontAwesomeIcons.coins,color: background,
                         ),
                         SizedBox(width:5.sp),
-                        Text(user.points.toString(),
+                        Text(user.points>=1000?user.points>=1000000?"${user.points~/1000000} M":"${user.points~/1000} K":user.points.toString(),
                           style: TextStyle(
                               color: background,
                               fontSize: 16.sp,
@@ -212,7 +230,7 @@ class _HomePageState extends State<HomePage> {
             itemCount: explore_items.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return ExploreCard(context,index);
+              return ExploreCard(context,explore_items.keys.toList()[index]);
             },
           ),
         ),
@@ -221,7 +239,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget ExploreCard(BuildContext context, int index) {
+  Widget ExploreCard(BuildContext context, String index) {
     final item = explore_items[index]!;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -339,7 +357,7 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15.sp),
-                  image: DecorationImage(image: AssetImage(item[1]),fit: BoxFit.cover),
+                  image: DecorationImage(image: item.imgurl,fit: BoxFit.cover),
               ),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.sp),
@@ -355,7 +373,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(item[0],
+                    Text(item.title,
                       style: TextStyle(
                           fontFamily: "Droid Arabic",
                           color: darkgrey,
@@ -368,20 +386,27 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(height: 20.sp,),
                     Center(
-                      child: Container(
-                        padding: EdgeInsets.all(5.sp),
-                        decoration: BoxDecoration(
-                          color: primary,
-                          borderRadius: BorderRadius.circular(45.sp)
-                        ),
-                        child: Center(
-                          child: Text("Play Now",
-                          style: TextStyle(
-                            color: background,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.sp,
-                            fontFamily: "Droid Arabic",
+                      child: InkWell(
+                        onTap: () {
+                          if (item.type=="quiz") {
+                            Get.to(QuizScreen(Quiz: item as QuizModel,));
+                          }
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(5.sp),
+                          decoration: BoxDecoration(
+                            color: primary,
+                            borderRadius: BorderRadius.circular(45.sp)
                           ),
+                          child: Center(
+                            child: Text("Play Now",
+                            style: TextStyle(
+                              color: background,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.sp,
+                              fontFamily: "Droid Arabic",
+                            ),
+                            ),
                           ),
                         ),
                       ),

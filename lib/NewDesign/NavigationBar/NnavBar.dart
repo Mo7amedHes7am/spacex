@@ -19,7 +19,7 @@ class NnavbarScreen extends StatefulWidget {
 }
 
 int _currentIndex = 0;
-final List<Widget> pages = [HomePage(), HomePage(), HomePage(), HomePage(),HomePage()];
+final List<Widget> pages = [HomePage(), CommunityPage(), HomePage(), HomePage(),HomePage()];
 
 class _NnavbarScreenState extends State<NnavbarScreen> {
 

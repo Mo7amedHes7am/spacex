@@ -62,7 +62,7 @@ Widget PostCard({
               style: TextStyle(
                 color: primary,
                 fontSize: 20.sp,
-                fontFamily: "ProtestGuerrilla",
+                fontFamily: "Calibri",
                 fontWeight: FontWeight.bold,
               ),
             ),

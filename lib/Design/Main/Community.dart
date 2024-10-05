@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spacex/Design/Auth/forgot_screen.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Components/PostCard.dart';
-import 'package:spacex/Design/NavigationBar/NavBar.dart';
+import 'package:spacex/NewDesign/NavigationBar/NnavBar.dart';
 import 'package:spacex/Methods/Models/PostModel.dart';
 import 'package:spacex/Methods/Models/UserModel.dart';
 

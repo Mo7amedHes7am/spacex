@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Splash/SplashScreen.dart';
 import 'package:spacex/NewDesign/NewSplash/NewSplash.dart';
-import 'package:spacex/NewDesign/Pages/GamePage.dart';
 import 'package:spacex/firebase_options.dart';
 
 late SharedPreferences prefs ;
@@ -168,7 +167,7 @@ class _MyAppState extends State<MyApp> {
       builder: (_ , child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          home: SafeArea(child: GameScreen()),
+          home: SafeArea(child: NewSplashScreen()),
         );
       },
     );

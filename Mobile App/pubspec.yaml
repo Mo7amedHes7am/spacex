@@ -1,0 +1,94 @@
+name: spacex
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  animate_do: ^3.3.4
+  intl: ^0.19.0
+  get: ^4.6.6
+  flutter_screenutil: ^5.9.3
+  google_sign_in: ^6.2.1
+  font_awesome_flutter: ^10.7.0
+  awesome_snackbar_content: ^0.1.4
+  flutter_svg_provider: ^1.0.7
+  firebase_auth: ^5.2.1
+  firebase_core: ^3.4.1
+  firebase_storage: ^12.3.0
+  cloud_firestore: ^5.4.1
+  firebase_database: ^11.1.2
+  webview_flutter: ^4.9.0
+  url_launcher: ^6.3.0
+  youtube_player_flutter: ^9.1.1
+  responsive_navigation_bar: ^5.0.2
+  readmore: ^3.0.0
+  easy_image_viewer: ^1.5.1
+  awesome_notifications_core: ^0.9.3
+  awesome_notifications: ^0.9.3+1
+  firebase_messaging: ^15.0.4
+  uuid: ^3.0.7
+  share_plus: ^10.0.2
+  audioplayers: ^6.1.0
+  custom_navigation_bar: ^0.8.2
+  flutter_embed_unity: ^1.2.3
+  shared_preferences: ^2.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+
+  assets:
+    - assets/
+    - assets/audio/
+
+  fonts:
+    - family: Senmoly Caligan
+      fonts:
+        - asset: fonts/SenmolyCaligan.otf
+
+    - family: Fredoka
+      fonts:
+        - asset: fonts/Fredoka.ttf
+
+    - family: Khediawy
+      fonts:
+        - asset: fonts/Khediawy.ttf
+
+    - family: ProtestGuerrilla
+      fonts:
+        - asset: fonts/ProtestGuerrilla.ttf
+
+    - family: Calibri
+      fonts:
+        - asset: fonts/calibri.ttf
+          style: normal
+        - asset: fonts/calibrii.ttf
+          style: italic
+        - asset: fonts/calibrib.ttf
+          weight: 700
+        - asset: fonts/calibril.ttf
+          weight: 300
+        - asset: fonts/calibrili.ttf
+          weight: 300
+          style: italic
+        - asset: fonts/calibriz.ttf
+          weight: 700
+          style: italic
+
+    - family: Droid Arabic
+      fonts:
+        - asset: fonts/Droid.Arabic.Kufi.ttf

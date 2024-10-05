@@ -183,6 +183,12 @@ class _May2024State extends State<May2024> {
                       children: [
                         InkWell(
                           onTap: () async {
+                            await FirebaseFirestore.instance.collection("may2024").doc(FirebaseAuth.instance.currentUser!.uid)
+                                .set(
+                                {
+                                  'step':1
+                                }
+                            );
                             Get.off(ARScreen());
                           },
                           child: Container(

@@ -41,6 +41,12 @@ class _ARScreenState extends State<ARScreen> {
                 children: [
                   InkWell(
                     onTap: () async {
+                      await FirebaseFirestore.instance.collection("may2024").doc(FirebaseAuth.instance.currentUser!.uid)
+                          .set(
+                          {
+                            'step':2
+                          }
+                      );
                       Get.off(GameScreen());
                     },
                     child: Container(

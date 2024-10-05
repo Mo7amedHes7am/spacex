@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +15,7 @@ import 'package:spacex/Design/Pages/Videos.dart';
 import 'package:spacex/Methods/GlobalMethods.dart';
 import 'package:spacex/Methods/Models/QuizModel.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:spacex/NewDesign/Pages/SuccessScreen.dart';
 
 late QuizModel quiz;
 bool take = false;
@@ -79,135 +83,159 @@ class _QuizScreenState extends State<QuizScreen> {
           child: Padding(
             padding: EdgeInsets.all(20.sp),
             child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.timer,color: timefinish-timetaken<=5000?CupertinoColors.destructiveRed:background,size: 24.sp,),
-                    SizedBox(width: 15.sp,),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(printDuration(timetaken,timefinish),
-                        style: TextStyle(
-                            fontSize: 20.sp,
-                            color: timefinish-timetaken<=5000?CupertinoColors.destructiveRed:background,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Droid Arabic"
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.timer,color: timefinish-timetaken<=5000?CupertinoColors.destructiveRed:background,size: 24.sp,),
+                      SizedBox(width: 15.sp,),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(printDuration(timetaken,timefinish),
+                          style: TextStyle(
+                              fontSize: 20.sp,
+                              color: timefinish-timetaken<=5000?CupertinoColors.destructiveRed:background,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Droid Arabic"
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 50.h,),
-                Text("Question ${total+1} out of ${quiz.questions.length}",
-                  style: TextStyle(
-                      fontSize: 20.sp,
-                      color: background,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "Droid Arabic"
+                      )
+                    ],
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 20.h,),
-                Text(quiz.questions.keys.toList()[total].split(":")[1],
-                  style: TextStyle(
-                      fontSize: 24.sp,
-                      color: background,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "Droid Arabic"
+                  SizedBox(height: 50.h,),
+                  Text("Question ${total+1} out of ${quiz.questions.length}",
+                    style: TextStyle(
+                        fontSize: 20.sp,
+                        color: background,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Droid Arabic"
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 50.h,),
-                 ListView.builder(
-                   shrinkWrap: true,
-                   physics: NeverScrollableScrollPhysics(),
-                   itemCount: quiz.questions[quiz.questions.keys.toList()[total]]!.length,
-                     itemBuilder: (context, index) {
-                     final answer = quiz.questions[quiz.questions.keys.toList()[total]]![index];
-                     final q = quiz.answers[quiz.questions.keys.toList()[total]]!;
-                       return Column(
-                         children: [
-                           InkWell(
-                             onTap:(){
-                               if (!reveal && q==index) {
-                                 corrects += 1;
-                                 WidgetsBinding.instance.addPostFrameCallback((_) async {
-                                   await player.setSource(AssetSource('audio/right.mp3'));
-                                   await player.resume();
-                                 });
-                                 // AssetsAudioPlayer.newPlayer().open(
-                                 //   Audio("audio/right.mp3"),
-                                 //   autoStart: true,
-                                 //   showNotification: true,
-                                 // );
-                               }else if(!reveal && q!=index){
-                                 WidgetsBinding.instance.addPostFrameCallback((_) async {
-                                   await player.setSource(AssetSource('audio/wrong.mp3'));
-                                   await player.resume();
-                                 });
-                               }
-                               setState(() {
-                                 reveal = true;
-                               });
+                  SizedBox(height: 20.h,),
+                  Text(quiz.questions.keys.toList()[total],
+                    style: TextStyle(
+                        fontSize: 24.sp,
+                        color: background,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Droid Arabic"
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 50.h,),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: quiz.questions[quiz.questions.keys.toList()[total]]!.length,
+                    itemBuilder: (context, index) {
+                      final answer = quiz.questions[quiz.questions.keys.toList()[total]]![index];
+                      final q = quiz.answers[quiz.questions.keys.toList()[total]]!;
+                      return Column(
+                        children: [
+                          InkWell(
+                            onTap:(){
+                              if (!reveal && q==index) {
+                                corrects += 1;
+                                WidgetsBinding.instance.addPostFrameCallback((_) async {
+                                  await player.setSource(AssetSource('audio/correct.mp3'));
+                                  await player.resume();
+                                });
+                                // AssetsAudioPlayer.newPlayer().open(
+                                //   Audio("audio/right.mp3"),
+                                //   autoStart: true,
+                                //   showNotification: true,
+                                // );
+                              }else if(!reveal && q!=index){
+                                WidgetsBinding.instance.addPostFrameCallback((_) async {
+                                  await player.setSource(AssetSource('audio/wrong.mp3'));
+                                  await player.resume();
+                                });
+                              }
+                              setState(() {
+                                reveal = true;
+                              });
 
                             },
-                             child: Container(
-                               padding: EdgeInsets.all(10.sp),
-                               decoration: BoxDecoration(
-                                   color: (reveal && q==index)?CupertinoColors.activeGreen:reveal?CupertinoColors.destructiveRed:Colors.white,
-                                   borderRadius: BorderRadius.circular(15.sp)
-                               ),
-                               child: Center(
-                                 child: Text(answer,
-                                   style: TextStyle(
-                                       fontSize: 20.sp,
-                                       color: primary,
-                                       fontWeight: FontWeight.bold,
-                                       fontFamily: "Calibri"
-                                   ),
-                                   textAlign: TextAlign.center,
-                                 ),
-                               ),
-                             ),
-                           ),
-                           SizedBox(height: 20.h,)
-                         ],
-                       );
-                     },
-                 ),
-                InkWell(
-                  onTap:(){
-                    setState(() {
-                      if (total==quiz.questions.length-1) {
-                        return;
-                      }
-                      reveal = false;
-                      total+=1;
-                    });
+                            child: Container(
+                              padding: EdgeInsets.all(10.sp),
+                              decoration: BoxDecoration(
+                                  color: (reveal && q==index)?CupertinoColors.activeGreen:reveal?CupertinoColors.destructiveRed:Colors.white,
+                                  borderRadius: BorderRadius.circular(15.sp)
+                              ),
+                              child: Center(
+                                child: Text(answer,
+                                  style: TextStyle(
+                                      fontSize: 20.sp,
+                                      color: primary,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "Calibri"
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20.h,)
+                        ],
+                      );
+                    },
+                  ),
+                  reveal?InkWell(
+                    onTap:(){
+                      setState(() async {
+                        if (total==quiz.questions.length-1) {
+                          if (corrects>=1) {
+                            await FirebaseFirestore.instance.collection("may2024").doc(FirebaseAuth.instance.currentUser!.uid)
+                                .set(
+                                {
+                                  'step':4
+                                }
+                            );
+                            Get.off(Successscreen());
+                          }else{
+                            final snackBar = SnackBar(
+                              duration: Duration(milliseconds: 1500,),
+                              elevation: 0,
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              content: AwesomeSnackbarContent(
+                                title: 'Sorry',
+                                message: 'Please Focus And Try Again!',
+                                contentType: ContentType.failure,
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(snackBar);
+                          }
+                          take = false;
+                        }
+                        reveal = false;
+                        total+=1;
+                      });
 
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10.sp),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15.sp)
-                    ),
-                    child: Center(
-                      child: Text(total==quiz.questions.length-1?'Finish':"Next Question",
-                        style: TextStyle(
-                            fontSize: 20.sp,
-                            color: primary,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Calibri"
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10.sp),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15.sp)
+                      ),
+                      child: Center(
+                        child: Text(total==quiz.questions.length-1?'Finish':"Next Question",
+                          style: TextStyle(
+                              fontSize: 20.sp,
+                              color: primary,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Calibri"
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ),
-                  ),
-                ),
-              ]
+                  ):SizedBox(),
+                ]
             ),
           ),
         ),

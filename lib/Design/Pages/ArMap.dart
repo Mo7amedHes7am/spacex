@@ -24,7 +24,7 @@ class _ARMapState extends State<ARMap> {
       child: Scaffold(
         backgroundColor: primary,
         appBar: AppBar(
-          
+
         ),
         body: SingleChildScrollView(
           child: Column(

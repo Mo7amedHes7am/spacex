@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
+import 'package:spacex/Design/Pages/ArMap.dart';
 import 'package:spacex/Design/Pages/Articles.dart';
 import 'package:spacex/Design/Pages/Quizes.dart';
 import 'package:spacex/Design/Pages/StormMap.dart';
@@ -247,10 +248,10 @@ class _HomePageState extends State<HomePage> {
       children: [
         InkWell(
           onTap: (){
-            if (index==0) {
+            if (index=="0") {
               Get.to(StormMap());
-            }else if(index==1){
-
+            }else if(index=="1"){
+              Get.to(ARMap());
             }else{
               if(item.datatype=="article"){
                 Get.to(ArticleScreen(article: item,));

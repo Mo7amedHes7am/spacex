@@ -17,6 +17,7 @@ migrate_working_dir/
 .idea/
 android/unityLibrary/build/
 android/unityLibrary/src/main/Il2CppOutputProject/IL2CPP/build/
+android/unityLibrary/symbols/
 
 
 # The .vscode folder contains launch configuration and tasks you configure in

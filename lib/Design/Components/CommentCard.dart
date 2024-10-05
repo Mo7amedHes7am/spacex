@@ -24,7 +24,7 @@ Widget CommentCard({
               SizedBox(width: 10.sp,),
               Text(users.where((element) => element.id==comment[1],).toList()[0].fname + " " + users.where((element) => element.id==comment[1],).toList()[0].lname,
                 style: TextStyle(
-                  color: primary,
+                  color: background,
                   fontSize: 16.sp,
                   fontFamily: "ProtestGuerrilla",
                   fontWeight: FontWeight.bold,
@@ -35,7 +35,7 @@ Widget CommentCard({
           ),
           Text(lastSeenMessage(comment[3]),
             style: TextStyle(
-              color: primary,
+              color: background,
               fontSize: 12.sp,
               fontFamily: "Fredoka",
               fontWeight: FontWeight.bold,
@@ -50,12 +50,12 @@ Widget CommentCard({
           trimMode: TrimMode.Line,
           trimLines: 3,
           style: TextStyle(
-            color: primary,
+            color: background,
             fontSize: 14.sp,
             fontFamily: "Droid Arabic",
           ),
           lessStyle: TextStyle(
-            color: primary,
+            color: background,
             fontSize: 14.sp,
             fontFamily: "Droid Arabic",
             fontWeight: FontWeight.bold,
@@ -64,7 +64,7 @@ Widget CommentCard({
           trimCollapsedText: 'Show more',
           trimExpandedText: 'Show less',
           moreStyle: TextStyle(
-            color: primary,
+            color: background,
             fontSize: 14.sp,
             fontFamily: "Droid Arabic",
             fontWeight: FontWeight.bold,

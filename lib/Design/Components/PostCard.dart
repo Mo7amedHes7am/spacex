@@ -22,7 +22,7 @@ Widget PostCard({
         width: MediaQuery.sizeOf(context).width,
         padding: EdgeInsets.all(10.sp),
         decoration: BoxDecoration(
-          color: background,
+          color: silverdark.withOpacity(0.8),
           borderRadius: BorderRadius.circular(15.sp)
         ),
         child: Column(
@@ -39,7 +39,7 @@ Widget PostCard({
                     SizedBox(width: 12.sp,),
                     Text(post.sender[1],
                       style: TextStyle(
-                          color: primary,
+                          color: background,
                           fontSize: 12.sp,
                           fontFamily: "Fredoka",
                           fontWeight: FontWeight.bold,
@@ -49,7 +49,7 @@ Widget PostCard({
                 ),
                 Text(lastSeenMessage(post.submittedat),
                   style: TextStyle(
-                    color: primary,
+                    color: background,
                     fontSize: 12.sp,
                     fontFamily: "Fredoka",
                     fontWeight: FontWeight.bold,
@@ -60,7 +60,7 @@ Widget PostCard({
             SizedBox(height: 25.sp,),
             Text(post.title,
               style: TextStyle(
-                color: primary,
+                color: background,
                 fontSize: 20.sp,
                 fontFamily: "Calibri",
                 fontWeight: FontWeight.bold,
@@ -74,12 +74,12 @@ Widget PostCard({
                 trimMode: TrimMode.Line,
                 trimLines: 3,
                 style: TextStyle(
-                  color: primary,
+                  color: background,
                   fontSize: 14.sp,
                   fontFamily: "Droid Arabic",
                 ),
                 lessStyle: TextStyle(
-                  color: primary,
+                  color: background,
                   fontSize: 14.sp,
                   fontFamily: "Droid Arabic",
                   fontWeight: FontWeight.bold,
@@ -88,7 +88,7 @@ Widget PostCard({
                 trimCollapsedText: 'Show more',
                 trimExpandedText: 'Show less',
                 moreStyle: TextStyle(
-                  color: primary,
+                  color: background,
                   fontSize: 14.sp,
                   fontFamily: "Droid Arabic",
                   fontWeight: FontWeight.bold,
@@ -144,11 +144,11 @@ Widget PostCard({
                           }
                         },
                         icon: Icon(post.likes.contains(FirebaseAuth.instance.currentUser!.uid)?
-                        FontAwesomeIcons.solidThumbsUp:FontAwesomeIcons.thumbsUp,size: 24.sp,)
+                        FontAwesomeIcons.solidThumbsUp:FontAwesomeIcons.thumbsUp,size: 24.sp,color: background,)
                       ),
                       Text(post.likes.length.toString(),
                         style: TextStyle(
-                          color: primary,
+                          color: background,
                           fontSize: 16.sp,
                           fontFamily: "ProtestGuerrilla",
                           fontWeight: FontWeight.bold,
@@ -164,11 +164,11 @@ Widget PostCard({
                           onPressed: () {
                             Get.to(PostComments(Post: post));
                           },
-                          icon: Icon(FontAwesomeIcons.comments,size: 24.sp,)
+                          icon: Icon(FontAwesomeIcons.comments,size: 24.sp,color: background,)
                       ),
                       Text(post.comments.length.toString(),
                         style: TextStyle(
-                          color: primary,
+                          color: background,
                           fontSize: 16.sp,
                           fontFamily: "ProtestGuerrilla",
                           fontWeight: FontWeight.bold,
@@ -188,11 +188,11 @@ Widget PostCard({
                               'shares':post.shares+1
                             });
                           },
-                          icon: Icon(FontAwesomeIcons.share,size: 24.sp,)
+                          icon: Icon(FontAwesomeIcons.share,size: 24.sp,color: background,)
                       ),
                       Text(post.shares.toString(),
                         style: TextStyle(
-                          color: primary,
+                          color: background,
                           fontSize: 16.sp,
                           fontFamily: "ProtestGuerrilla",
                           fontWeight: FontWeight.bold,

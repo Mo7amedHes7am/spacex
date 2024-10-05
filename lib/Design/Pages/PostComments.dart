@@ -9,9 +9,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:readmore/readmore.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Components/CommentCard.dart';
-import 'package:spacex/Design/NavigationBar/NavBar.dart';
 import 'package:spacex/Methods/Models/PostModel.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../NewDesign/NavigationBar/NnavBar.dart';
 
 late PostModel post;
 TextEditingController _controller = TextEditingController();
@@ -57,7 +58,7 @@ class _PostCommentsState extends State<PostComments> {
             return DataScreen(context);
           }
           else{
-            return Scaffold(body: Center(child: CircularProgressIndicator(color: primary,),),);
+            return Scaffold(body: Center(child: CircularProgressIndicator(color: background,),),);
           }
         });
   }
@@ -73,15 +74,20 @@ class _PostCommentsState extends State<PostComments> {
         appBar: AppBar(
           title: Text("Comments (${post.comments.length.toString()})",
             style: TextStyle(
-              color: primary,
+              color: background,
               fontSize: 20.sp,
               fontFamily: "ProtestGuerrilla",
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.start,
           ),
+          backgroundColor: Colors.transparent,
+          leading: BackButton(color: background,),
+          surfaceTintColor: Colors.transparent,
+          foregroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
         ),
-        backgroundColor: background,
+        backgroundColor: primary,
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -135,7 +141,7 @@ class _PostCommentsState extends State<PostComments> {
                             );
                             _controller.clear();
                           },
-                          icon: Icon(FontAwesomeIcons.solidPaperPlane,color: primary,size: 24.sp,)
+                          icon: Icon(FontAwesomeIcons.solidPaperPlane,color: background,size: 24.sp,)
                       ),
                     )
                   ],

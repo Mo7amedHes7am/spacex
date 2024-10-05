@@ -8,6 +8,7 @@ import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Main/Community.dart';
 import 'package:spacex/Design/Main/Home.dart';
 import 'package:spacex/Methods/Models/UserModel.dart';
+import 'package:spacex/NewDesign/Main/nHomeScreen.dart';
 
 late UserModel user;
 
@@ -19,7 +20,7 @@ class NnavbarScreen extends StatefulWidget {
 }
 
 int _currentIndex = 0;
-final List<Widget> pages = [HomePage(), CommunityPage(), HomePage(), HomePage(),HomePage()];
+final List<Widget> pages = [NHomeScreen(), CommunityPage(), HomePage(), HomePage(),HomePage()];
 
 class _NnavbarScreenState extends State<NnavbarScreen> {
 

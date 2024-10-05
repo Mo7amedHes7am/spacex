@@ -6,13 +6,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
-import 'package:spacex/Design/NavigationBar/NavBar.dart';
 import 'package:spacex/Design/Pages/Articles.dart';
 import 'package:spacex/Design/Pages/Quizes.dart';
 import 'package:spacex/Design/Pages/StormMap.dart';
 import 'package:spacex/Design/Pages/Videos.dart';
 import 'package:spacex/Methods/Models/ExploreModel.dart';
 import 'package:spacex/Methods/Models/QuizModel.dart';
+
+import '../../NewDesign/NavigationBar/NnavBar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

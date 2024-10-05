@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:spacex/Design/Auth/Signup.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/NavigationBar/NavBar.dart';
+import 'package:spacex/NewDesign/May2024/IntroMay2024.dart';
+import 'package:spacex/NewDesign/May2024/May2024.dart';
 import 'package:spacex/NewDesign/NavigationBar/NnavBar.dart';
 
 class NewSplashScreen extends StatefulWidget {
@@ -33,13 +36,27 @@ List<String> randoms = [
 
 class _NewSplashScreenState extends State<NewSplashScreen> {
 
+  Future<bool> checkIfDocExists(String docId) async {
+    try {
+      var collectionRef = FirebaseFirestore.instance.collection('may2024');
+      var docm = await collectionRef.doc(docId).get();
+      return docm.exists;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   @override
   void initState() {
     startTimer();
     fact = randoms[Random().nextInt(randoms.length)];
-    Future.delayed(Duration(seconds: 3)).then((value) {
-      if (FirebaseAuth.instance.currentUser != null) {
-        Get.off(NnavbarScreen());
+    Future.delayed(Duration(seconds: 3)).then((value) async {
+      if (FirebaseAuth.instance.currentUser != null ) {
+        if (await checkIfDocExists(FirebaseAuth.instance.currentUser!.uid.toString())) {
+          Get.off(NnavbarScreen());
+        }else{
+          Get.off(IntroMay2024Screen());
+        }
       }else{
         Get.off(SignUpScreen());
       }

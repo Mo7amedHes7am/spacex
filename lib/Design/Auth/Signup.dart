@@ -12,6 +12,8 @@ import 'package:spacex/Design/Auth/Signup2.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Main/Home.dart';
 import 'package:spacex/Design/NavigationBar/NavBar.dart';
+import 'package:spacex/NewDesign/May2024/IntroMay2024.dart';
+import 'package:spacex/NewDesign/NavigationBar/NnavBar.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -209,8 +211,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     await  FirebaseAuth.instance.signInWithCredential(credential);
 
-    if (await checkIfDocExists(FirebaseAuth.instance.currentUser!.uid.toString())) {
-      Get.offAll(HomeMain());
+    if (await checkIfDocExists2(FirebaseAuth.instance.currentUser!.uid.toString())) {
+      if (await checkIfDocExists(FirebaseAuth.instance.currentUser!.uid.toString())) {
+        Get.off(NnavbarScreen());
+      }else{
+        Get.off(IntroMay2024Screen());
+      }
     }
     else{
       final user = <String, dynamic>{
@@ -230,11 +236,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .onError((e, _) => print("Error writing document: $e"));
       FirebaseMessaging.instance.subscribeToTopic("news");
 
-      Get.offAll(HomeMain());
+      if (await checkIfDocExists(FirebaseAuth.instance.currentUser!.uid.toString())) {
+        Get.off(NnavbarScreen());
+      }else{
+        Get.off(IntroMay2024Screen());
+      }
+
     }
   }
 
-  Future<bool> checkIfDocExists(String docId) async {
+  Future<bool> checkIfDocExists2(String docId) async {
     try {
       var collectionRef = FirebaseFirestore.instance.collection('users');
       var docm = await collectionRef.doc(docId).get();
@@ -244,5 +255,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
+  Future<bool> checkIfDocExists(String docId) async {
+    try {
+      var collectionRef = FirebaseFirestore.instance.collection('may2024');
+      var docm = await collectionRef.doc(docId).get();
+      return docm.exists;
+    } catch (e) {
+      throw e;
+    }
+  }
 
 }

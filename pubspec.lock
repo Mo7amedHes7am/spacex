@@ -193,6 +193,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  custom_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: custom_navigation_bar
+      sha256: "2e00e138a1eba71c288aadbcd728f1f8caebf659b95b793aae08a9c0d70ca941"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.2"
   device_frame:
     dependency: transitive
     description:
@@ -366,6 +374,38 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_embed_unity:
+    dependency: "direct main"
+    description:
+      name: flutter_embed_unity
+      sha256: d2a8eb3e3c621055e2b1a7aa894139dc9eafe7eaba3fa6ffa19137eeccccc763
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.3"
+  flutter_embed_unity_2022_3_android:
+    dependency: transitive
+    description:
+      name: flutter_embed_unity_2022_3_android
+      sha256: "6eb19e53bdd12990a06416e392b99f9e098f9651c74e6ad0f9191ff0328dc6bb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
+  flutter_embed_unity_2022_3_ios:
+    dependency: transitive
+    description:
+      name: flutter_embed_unity_2022_3_ios
+      sha256: "654ed70cf0fd678715e52ee2fa22b2babe540a42d1e663b9a3891fb0654201b4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
+  flutter_embed_unity_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_embed_unity_platform_interface
+      sha256: f6c51507623af383dc78fb0a6957b139f6b1d0cc5ef368f507551beac21d33c4
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   flutter_inappwebview:
     dependency: transitive
     description:
@@ -782,7 +822,7 @@ packages:
     source: hosted
     version: "5.0.0"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       sha256: "746e5369a43170c25816cc472ee016d3a66bc13fcf430c0bc41ad7b4b2922051"

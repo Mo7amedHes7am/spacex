@@ -10,6 +10,8 @@ import 'package:spacex/Design/Auth/forgot_screen.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Main/Home.dart';
 import 'package:spacex/Design/NavigationBar/NavBar.dart';
+import 'package:spacex/NewDesign/May2024/IntroMay2024.dart';
+import 'package:spacex/NewDesign/NavigationBar/NnavBar.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -189,11 +191,21 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 
-  Future<bool> checkIfDocExists(String docId) async {
+  Future<bool> checkIfDocExists2(String docId) async {
     try {
       // Get reference to Firestore collection
       var collectionRef = FirebaseFirestore.instance.collection('users');
 
+      var docm = await collectionRef.doc(docId).get();
+      return docm.exists;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<bool> checkIfDocExists(String docId) async {
+    try {
+      var collectionRef = FirebaseFirestore.instance.collection('may2024');
       var docm = await collectionRef.doc(docId).get();
       return docm.exists;
     } catch (e) {
@@ -208,7 +220,11 @@ class _SigninScreenState extends State<SigninScreen> {
           password: password
       );
       FirebaseMessaging.instance.subscribeToTopic("news");
-      Get.offAll(HomeMain());
+      if (await checkIfDocExists(FirebaseAuth.instance.currentUser!.uid.toString())) {
+        Get.off(NnavbarScreen());
+      }else{
+        Get.off(IntroMay2024Screen());
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         final snackBar = SnackBar(

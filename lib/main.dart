@@ -7,10 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Splash/SplashScreen.dart';
 import 'package:spacex/NewDesign/NewSplash/NewSplash.dart';
 import 'package:spacex/firebase_options.dart';
+
+late SharedPreferences prefs ;
 
 displaynotifications(){
   AwesomeNotifications().initialize(
@@ -60,6 +63,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  prefs = await SharedPreferences.getInstance();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(
     DevicePreview(

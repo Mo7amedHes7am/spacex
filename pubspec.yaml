@@ -38,6 +38,9 @@ dependencies:
   uuid: ^3.0.7
   share_plus: ^10.0.2
   audioplayers: ^6.1.0
+  custom_navigation_bar: ^0.8.2
+  flutter_embed_unity: ^1.2.3
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:

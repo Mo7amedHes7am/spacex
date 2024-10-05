@@ -9,6 +9,8 @@ import 'package:spacex/Design/Auth/Signup.dart';
 import 'package:spacex/Design/Colors/ColorsMethods.dart';
 import 'package:spacex/Design/Main/Home.dart';
 import 'package:spacex/Design/NavigationBar/NavBar.dart';
+import 'package:spacex/NewDesign/May2024/IntroMay2024.dart';
+import 'package:spacex/NewDesign/NavigationBar/NnavBar.dart';
 
 bool x = false;
 class SignupScreen2 extends StatefulWidget
@@ -380,7 +382,12 @@ class _SignupScreenState extends State<SignupScreen2> {
           .onError((e, _) => print("Error writing document: $e"));
       FirebaseMessaging.instance.subscribeToTopic("news");
 
-      Get.offAll(HomeMain());
+      if (await checkIfDocExists(FirebaseAuth.instance.currentUser!.uid.toString())) {
+        Get.off(NnavbarScreen());
+      }else{
+        Get.off(IntroMay2024Screen());
+      }
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         final snackBar = SnackBar(
@@ -419,5 +426,14 @@ class _SignupScreenState extends State<SignupScreen2> {
     }
   }
 
+  Future<bool> checkIfDocExists(String docId) async {
+    try {
+      var collectionRef = FirebaseFirestore.instance.collection('may2024');
+      var docm = await collectionRef.doc(docId).get();
+      return docm.exists;
+    } catch (e) {
+      throw e;
+    }
+  }
 
 }
